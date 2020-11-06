@@ -1,90 +1,74 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:clickable="true"
-    android:elevation="0dp"
-    android:focusable="true"
-    android:foreground="?attr/selectableItemBackground"
-    app:cardCornerRadius="0dp"
-    app:cardElevation="0dp"
-    app:cardMaxElevation="0dp">
+<layout>
+    <data>
+        <variable
+            name="pair"
+            type="com.fjmartins.forexrates.model.Pair" />
+    </data>
 
-    <androidx.constraintlayout.widget.ConstraintLayout
+    <androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="?colorOnBackground"
-        android:minHeight="72dp"
-        android:padding="@dimen/forex_rate_default_padding">
+        android:layout_height="75dp"
+        android:clickable="true"
+        android:elevation="0dp"
+        android:focusable="true"
+        android:foreground="?attr/selectableItemBackground"
+        app:cardCornerRadius="0dp"
+        app:cardElevation="0dp"
+        app:cardMaxElevation="0dp">
 
-        <ImageView
-            android:id="@+id/currencyFlag"
-            android:layout_width="0dp"
-            android:layout_height="0dp"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintDimensionRatio="1:1"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            tools:src="@tools:sample/avatars" />
-
-        <com.google.android.material.textview.MaterialTextView
-            android:id="@+id/title"
-            android:layout_width="0dp"
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginStart="@dimen/forex_rate_default_margin"
-            android:gravity="top"
-            android:lineSpacingExtra="5sp"
-            android:translationY="-2.62sp"
-            app:layout_constraintBottom_toTopOf="@+id/description"
-            app:layout_constraintEnd_toStartOf="@+id/amount"
-            app:layout_constraintStart_toEndOf="@id/currencyFlag"
-            app:layout_constraintTop_toTopOf="parent"
-            tools:text="@tools:sample/lorem" />
+            android:background="@color/white"
+            android:minHeight="72dp"
+            android:padding="@dimen/forex_rate_default_padding">
 
-        <com.google.android.material.textview.MaterialTextView
-            android:id="@+id/description"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:gravity="top"
-            android:lineSpacingExtra="4sp"
-            android:translationY="-1.8sp"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toStartOf="@+id/amount"
-            app:layout_constraintStart_toStartOf="@id/title"
-            app:layout_constraintTop_toBottomOf="@+id/title"
-            tools:text="@tools:sample/lorem" />
+            <com.google.android.material.textview.MaterialTextView
+                android:id="@+id/title"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/forex_rate_default_margin"
+                android:text="@{pair.name}"
+                android:textSize="20sp"
+                android:gravity="top"
+                android:lineSpacingExtra="5sp"
+                android:translationY="-2.62sp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toStartOf="@+id/amount"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                tools:text="@tools:sample/lorem" />
 
-        <androidx.constraintlayout.widget.Barrier
-            android:id="@+id/amountBarrier"
-            android:layout_width="wrap_content"
-            android:layout_height="0dp"
-            app:barrierDirection="left"
-            app:constraint_referenced_ids="amount"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            <androidx.constraintlayout.widget.Barrier
+                android:id="@+id/amountBarrier"
+                android:layout_width="2dp"
+                android:layout_height="0dp"
+                app:barrierDirection="left"
+                app:constraint_referenced_ids="amount"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
 
-        <com.google.android.material.textview.MaterialTextView
-            android:id="@+id/amount"
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:layout_marginTop="4dp"
-            android:layout_marginBottom="8dp"
-            android:gravity="end|top"
-            android:lineSpacingExtra="5sp"
-            android:maxWidth="160dp"
-            android:maxLength="18"
-            android:maxLines="1"
-            android:paddingLeft="2dp"
-            android:paddingTop="8dp"
-            android:paddingRight="2dp"
-            android:translationY="2.28sp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            tools:text="100.00" />
+            <com.google.android.material.textview.MaterialTextView
+                android:id="@+id/amount"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:gravity="end|top"
+                android:text="@{@string/string_converter(pair.value)}"
+                android:lineSpacingExtra="5sp"
+                android:maxWidth="160dp"
+                android:maxLength="18"
+                android:maxLines="1"
+                android:paddingLeft="2dp"
+                android:paddingTop="8dp"
+                android:paddingRight="2dp"
+                android:translationY="2.28sp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                tools:text="100.00" />
 
-    </androidx.constraintlayout.widget.ConstraintLayout>
-</androidx.cardview.widget.CardView>
-
-
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </androidx.cardview.widget.CardView>
+</layout>
