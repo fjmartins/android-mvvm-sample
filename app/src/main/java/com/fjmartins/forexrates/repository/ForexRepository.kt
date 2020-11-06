@@ -14,6 +14,8 @@ import kotlin.reflect.full.memberProperties
 class ForexRepository(private val quotesDao: PairsDao, private val currencyLayerService: CurrencyLayerService) {
 
     fun getLiveRates(): Single<List<Pair>> {
+        // TODO: Get data from DAO, after 30 minutes update DAO with API data
+
         return currencyLayerService.getLiveQuotes()
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
@@ -27,11 +29,7 @@ class ForexRepository(private val quotesDao: PairsDao, private val currencyLayer
                 quotesDao.insertPairs(pairs)
                     .subscribeOn(Schedulers.io())
                     .observeOn(Schedulers.computation())
-                    .subscribe({s ->
-                        println(s)
-                    }, { e ->
-                        println(e)
-                    })
+                    .subscribe()
 
                 pairs.toList()
             }

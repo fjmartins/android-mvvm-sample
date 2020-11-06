@@ -4,6 +4,7 @@ import android.os.Bundle
 import com.fjmartins.forexrates.R
 import com.fjmartins.forexrates.di.Injectable
 import com.fjmartins.forexrates.view.base.BaseActivity
+import com.fjmartins.forexrates.view.pairs.PairsFragment
 import dagger.android.AndroidInjection
 
 class MainActivity : BaseActivity(), Injectable {
@@ -15,7 +16,7 @@ class MainActivity : BaseActivity(), Injectable {
         setContentView(R.layout.main_activity)
         if (savedInstanceState == null) {
             supportFragmentManager.beginTransaction()
-                    .replace(R.id.container, ForexPairsFragment.newInstance())
+                    .replace(R.id.container, PairsFragment.newInstance())
                     .commitNow()
         }
     }

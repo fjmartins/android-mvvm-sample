@@ -26,6 +26,6 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/loadingIndicator"
-        tools:listitem="@layout/adapter_currency_item" />
+        tools:listitem="@layout/pair_item" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

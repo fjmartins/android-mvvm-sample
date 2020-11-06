@@ -1,4 +1,4 @@
-package com.fjmartins.forexrates.viewmodel
+package com.fjmartins.forexrates.view.pairs
 
 import android.annotation.SuppressLint
 import androidx.lifecycle.ViewModel
@@ -6,7 +6,7 @@ import com.fjmartins.forexrates.repository.ForexRepository
 import com.fjmartins.forexrates.model.Pair
 import javax.inject.Inject
 
-class MainViewModel @Inject constructor(private val repository: ForexRepository) : ViewModel() {
+class PairsViewModel @Inject constructor(private val repository: ForexRepository) : ViewModel() {
 
     @SuppressLint("CheckResult")
     fun getLiveRates() {
