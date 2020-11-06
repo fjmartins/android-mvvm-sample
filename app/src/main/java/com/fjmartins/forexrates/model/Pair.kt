@@ -9,6 +9,10 @@ data class Pair(
     @PrimaryKey
     @ColumnInfo(name = "name")
     val name: String = "",
+    @ColumnInfo(name = "description")
+    val description: String = "",
     @ColumnInfo(name = "value")
-    val value: Double = 0.0
+    val value: Double = 0.0,
+    @ColumnInfo(name = "timestamp")
+    val timestamp: Long = 0
 )

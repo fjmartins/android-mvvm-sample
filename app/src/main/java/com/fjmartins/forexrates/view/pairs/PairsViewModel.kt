@@ -16,12 +16,9 @@ class PairsViewModel @Inject constructor(private val repository: ForexRepository
     fun getLiveRates() {
         loading.value = true
 
-        repository.getLiveRates().subscribe({ pairs ->
+        repository.getPairs { pairs ->
             this.pairs.value = pairs
-
             loading.value = false
-        }, { e ->
-            println(e)
-        })
+        }
     }
 }

@@ -1,14 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
     <data>
         <variable
             name="pair"
             type="com.fjmartins.forexrates.model.Pair" />
     </data>
 
-    <androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:app="http://schemas.android.com/apk/res-auto"
-        xmlns:tools="http://schemas.android.com/tools"
+    <androidx.cardview.widget.CardView
         android:layout_width="match_parent"
         android:layout_height="75dp"
         android:clickable="true"
@@ -31,15 +31,31 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="@dimen/forex_rate_default_margin"
-                android:text="@{pair.name}"
-                android:textSize="20sp"
                 android:gravity="top"
                 android:lineSpacingExtra="5sp"
-                android:translationY="-2.62sp"
-                app:layout_constraintBottom_toBottomOf="parent"
+                android:text="@{pair.name}"
+                android:textSize="20sp"
+                app:layout_constraintBottom_toTopOf="@+id/description"
                 app:layout_constraintEnd_toStartOf="@+id/amount"
+                app:layout_constraintHorizontal_bias="1.0"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
+                tools:text="@tools:sample/lorem" />
+
+            <com.google.android.material.textview.MaterialTextView
+                android:id="@+id/description"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/forex_rate_default_margin"
+                android:gravity="top"
+                android:lineSpacingExtra="5sp"
+                android:text="@{pair.description}"
+                android:textSize="15sp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toStartOf="@+id/amount"
+                app:layout_constraintHorizontal_bias="1.0"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/title"
                 tools:text="@tools:sample/lorem" />
 
             <androidx.constraintlayout.widget.Barrier

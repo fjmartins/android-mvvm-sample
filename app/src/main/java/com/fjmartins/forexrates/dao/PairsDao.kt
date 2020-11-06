@@ -7,7 +7,7 @@ import io.reactivex.Single
 @Dao
 interface PairsDao {
     @Query("SELECT * FROM pairs")
-    fun getAllPairs(): List<Pair>
+    fun getAllPairs(): Single<List<Pair>>
 
     @Insert
     fun insertPair(pair: Pair): Single<Long>
