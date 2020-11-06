@@ -5,11 +5,11 @@ import io.reactivex.Single
 import retrofit2.http.GET
 import retrofit2.http.Query
 
-interface CurrencyLayerService {
+interface CurrencyLayerApi {
     companion object {
         const val URL = "http://api.currencylayer.com/"
     }
 
     @GET("live")
-    fun getLiveQuotes(@Query("access_key") key: String = "3b2146170c4eb839eab7a15ee06b74e5"): Single<LiveQuotesResponse> // onNext -> save to DB
+    fun getLiveQuotes(@Query("access_key") key: String = "3b2146170c4eb839eab7a15ee06b74e5"): Single<LiveQuotesResponse>
 }

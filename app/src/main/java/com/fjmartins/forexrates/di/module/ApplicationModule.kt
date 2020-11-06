@@ -3,7 +3,7 @@ package com.fjmartins.forexrates.di.module
 import androidx.room.Room
 import com.fjmartins.forexrates.ForexApplication
 import com.fjmartins.forexrates.dao.ForexDatabase
-import com.fjmartins.forexrates.network.CurrencyLayerService
+import com.fjmartins.forexrates.network.CurrencyLayerApi
 import com.fjmartins.forexrates.repository.ForexRepository
 import dagger.Module
 import dagger.Provides
@@ -23,7 +23,7 @@ class ApplicationModule {
 
     @Provides
     @Singleton
-    fun provideForexRepository(database: ForexDatabase, service: CurrencyLayerService): ForexRepository {
-        return ForexRepository(database.pairsDao(), service)
+    fun provideForexRepository(database: ForexDatabase, currencyLayerApi: CurrencyLayerApi): ForexRepository {
+        return ForexRepository(database.pairsDao(), currencyLayerApi)
     }
 }

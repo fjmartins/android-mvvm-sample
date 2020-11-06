@@ -1,6 +1,6 @@
 package com.fjmartins.forexrates.di.module
 
-import com.fjmartins.forexrates.network.CurrencyLayerService
+import com.fjmartins.forexrates.network.CurrencyLayerApi
 import dagger.Module
 import dagger.Provides
 import okhttp3.OkHttpClient
@@ -22,7 +22,7 @@ class RetrofitModule {
     @Singleton
     fun provideRetrofit(httpClient: OkHttpClient.Builder) : Retrofit {
         return Retrofit.Builder()
-            .baseUrl(CurrencyLayerService.URL)
+            .baseUrl(CurrencyLayerApi.URL)
             .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
             .addConverterFactory(GsonConverterFactory.create())
             .client(httpClient.build())
@@ -31,7 +31,7 @@ class RetrofitModule {
 
     @Provides
     @Singleton
-    fun provideCurrencyLayerApi(retrofit: Retrofit) : CurrencyLayerService {
-        return retrofit.create(CurrencyLayerService::class.java)
+    fun provideCurrencyLayerApi(retrofit: Retrofit) : CurrencyLayerApi {
+        return retrofit.create(CurrencyLayerApi::class.java)
     }
 }
