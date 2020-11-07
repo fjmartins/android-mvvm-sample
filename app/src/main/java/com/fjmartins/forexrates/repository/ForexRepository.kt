@@ -54,6 +54,8 @@ class ForexRepository(
         return currencyLayerApi.getLiveQuotes()
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
+            .repeatWhen { Flowable.timer(20, TimeUnit.SECONDS).repeat() }
+            .firstOrError()
             .map { liveQuotesResponse ->
                 // Using reflection to convert each quote into a currency Pair object
                 val pairs = ArrayList<Pair>()
