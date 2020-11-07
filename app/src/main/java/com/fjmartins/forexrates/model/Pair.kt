@@ -15,4 +15,6 @@ data class Pair(
     val value: Double = 0.0,
     @ColumnInfo(name = "timestamp")
     val timestamp: Long = 0
-)
+) {
+    override fun toString(): String = this.name.substring(3) + " - " + this.description
+}

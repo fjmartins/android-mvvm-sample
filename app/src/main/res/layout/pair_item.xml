@@ -10,7 +10,7 @@
 
     <androidx.cardview.widget.CardView
         android:layout_width="match_parent"
-        android:layout_height="75dp"
+        android:layout_height="60dp"
         android:clickable="true"
         android:elevation="0dp"
         android:focusable="true"
@@ -23,39 +23,22 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="@color/white"
-            android:minHeight="72dp"
+            android:minHeight="58dp"
             android:padding="@dimen/forex_rate_default_padding">
 
             <com.google.android.material.textview.MaterialTextView
                 android:id="@+id/title"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="@dimen/forex_rate_default_margin"
-                android:gravity="top"
-                android:lineSpacingExtra="5sp"
-                android:text="@{pair.name}"
-                android:textSize="20sp"
-                app:layout_constraintBottom_toTopOf="@+id/description"
-                app:layout_constraintEnd_toStartOf="@+id/amount"
-                app:layout_constraintHorizontal_bias="1.0"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                tools:text="@tools:sample/lorem" />
-
-            <com.google.android.material.textview.MaterialTextView
-                android:id="@+id/description"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="@dimen/forex_rate_default_margin"
                 android:gravity="top"
                 android:lineSpacingExtra="5sp"
                 android:text="@{pair.description}"
-                android:textSize="15sp"
+                android:textSize="18sp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toStartOf="@+id/amount"
                 app:layout_constraintHorizontal_bias="1.0"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/title"
+                app:layout_constraintTop_toTopOf="parent"
                 tools:text="@tools:sample/lorem" />
 
             <androidx.constraintlayout.widget.Barrier

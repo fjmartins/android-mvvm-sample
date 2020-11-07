@@ -1,15 +1,15 @@
 package com.fjmartins.forexrates.view.pairs
 
-import androidx.lifecycle.ViewModelProvider
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ArrayAdapter
+import android.widget.SpinnerAdapter
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
+import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
-import com.fjmartins.forexrates.R
 import com.fjmartins.forexrates.databinding.PairsFragmentBinding
 import com.fjmartins.forexrates.di.Injectable
 import com.fjmartins.forexrates.view.pairs.adapter.PairsAdapter
@@ -26,6 +26,8 @@ class PairsFragment : Fragment(), Injectable {
     private lateinit var viewModel: PairsViewModel
     private lateinit var binding: PairsFragmentBinding
     private lateinit var pairsViewAdapter: PairsAdapter
+
+    private var selectedCurrency: Int = 0
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -48,6 +50,11 @@ class PairsFragment : Fragment(), Injectable {
             lifecycleOwner = viewLifecycleOwner
         }
 
+        binding.currencySpinner
+
+        val spinnerAdapter = ArrayAdapter(context!!, android.R.layout.simple_dropdown_item_1line, ArrayList<String>())
+        binding.currencySpinner.adapter = spinnerAdapter
+
         pairsViewAdapter = PairsAdapter()
 
         binding.currenciesRecyclerView.apply {
@@ -58,6 +65,13 @@ class PairsFragment : Fragment(), Injectable {
 
         viewModel.pairs.observe(viewLifecycleOwner, Observer { pairs ->
             pairsViewAdapter.setCurrencyPairs(pairs)
+
+            spinnerAdapter.clear()
+            spinnerAdapter.addAll(pairs.map {
+                it.toString()
+            })
         })
+
+        binding.loadingIndicator.animate()
     }
 }
