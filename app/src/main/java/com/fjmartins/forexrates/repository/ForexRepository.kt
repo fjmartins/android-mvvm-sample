@@ -7,12 +7,13 @@ import com.fjmartins.forexrates.model.Pair
 import com.fjmartins.forexrates.model.Quotes
 import com.fjmartins.forexrates.network.CurrencyLayerApi
 import com.fjmartins.forexrates.util.ForexUtils
-import io.reactivex.Flowable
+import io.reactivex.Observable
 import io.reactivex.Single
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
 import java.util.concurrent.TimeUnit
 import kotlin.reflect.full.memberProperties
+
 
 @SuppressLint("CheckResult")
 class ForexRepository(
@@ -20,24 +21,37 @@ class ForexRepository(
     private val currencyLayerApi: CurrencyLayerApi
 ) {
 
-    fun getPairs(finally: (pairs: List<Pair>) -> Unit) {
-        getPairsLocal().subscribe({ localPairs ->
-            val expirationTime = System.currentTimeMillis() - localPairs[0].timestamp
-            if (expirationTime >= TimeUnit.MINUTES.toMillis(30)) {
-                getPairsRemote().subscribe { remotePairs ->
-                    finally(remotePairs)
-                }
+    fun getLivePairs(update: (pairs: List<Pair>) -> Unit) {
+        // TODO: Add to disposable, call compositeDisposable.dispose() when done
+        Observable.interval(0, 30, TimeUnit.MINUTES)
+            .flatMap {
+                return@flatMap Observable.create<List<Pair>> { emitter ->
+                    getPairsLocal().subscribe({ localPairs ->
+                        val expirationTime = System.currentTimeMillis() - localPairs[0].timestamp
+                        if (expirationTime >= TimeUnit.MINUTES.toMillis(30)) {
+                            getPairsRemote().subscribe { remotePairs ->
+                                emitter.onNext(remotePairs)
+                                emitter.onComplete()
+                            }
 
-                return@subscribe
+                            return@subscribe
+                        }
+
+                        emitter.onNext(localPairs)
+                        emitter.onComplete()
+                    }, { error ->
+                        if (error is EmptyResultSetException)
+                            getPairsRemote().subscribe { remotePairs ->
+                                emitter.onNext(remotePairs)
+                                emitter.onComplete()
+                            }
+                    })
+                }
             }
-
-            finally(localPairs)
-        }, { error ->
-            if (error is EmptyResultSetException)
-                getPairsRemote().subscribe { remotePairs ->
-                    finally(remotePairs)
-                }
-        })
+            .observeOn(AndroidSchedulers.mainThread())
+            .subscribe { pairs ->
+                update(pairs)
+            }
     }
 
     private fun getPairsLocal(): Single<List<Pair>> {
