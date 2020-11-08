@@ -32,7 +32,7 @@
                 android:layout_height="wrap_content"
                 android:gravity="top"
                 android:lineSpacingExtra="5sp"
-                android:text="@{pair.description}"
+                android:text="@{pair.name}"
                 android:textSize="18sp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toStartOf="@+id/amount"

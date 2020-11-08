@@ -4,7 +4,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import com.fjmartins.forexrates.di.annotation.ViewModelKey
 import com.fjmartins.forexrates.di.factory.ViewModelFactory
-import com.fjmartins.forexrates.view.pairs.PairsViewModel
+import com.fjmartins.forexrates.view.pairs.RatesViewModel
 import dagger.Binds
 import dagger.Module
 import dagger.multibindings.IntoMap
@@ -17,6 +17,6 @@ abstract class ViewModelModule {
 
     @Binds
     @IntoMap
-    @ViewModelKey(PairsViewModel::class)
-    abstract fun bindPairsViewModel(pairsViewModel: PairsViewModel): ViewModel
+    @ViewModelKey(RatesViewModel::class)
+    abstract fun bindPairsViewModel(pairsViewModel: RatesViewModel): ViewModel
 }

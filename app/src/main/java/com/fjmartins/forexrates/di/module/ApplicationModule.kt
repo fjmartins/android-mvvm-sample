@@ -24,6 +24,6 @@ class ApplicationModule {
     @Provides
     @Singleton
     fun provideForexRepository(database: ForexDatabase, currencyLayerApi: CurrencyLayerApi): ForexRepository {
-        return ForexRepository(database.pairsDao(), currencyLayerApi)
+        return ForexRepository(database, currencyLayerApi)
     }
 }
