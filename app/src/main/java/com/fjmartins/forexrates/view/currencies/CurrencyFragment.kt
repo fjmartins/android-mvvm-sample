@@ -6,33 +6,32 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
+import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
-import com.fjmartins.forexrates.databinding.FragmentSelectCurrencyBinding
+import androidx.navigation.findNavController
+import com.fjmartins.forexrates.R
+import com.fjmartins.forexrates.databinding.FragmentCurrencyBinding
 import com.fjmartins.forexrates.di.Injectable
-import com.fjmartins.forexrates.view.rates.RatesViewModel
+import com.fjmartins.forexrates.model.ConversionHelper
 import javax.inject.Inject
 
-class SelectCurrencyFragment : Fragment(), Injectable {
-
-    companion object {
-        fun newInstance() = SelectCurrencyFragment()
-    }
+class CurrencyFragment : Fragment(), Injectable {
 
     @Inject
     lateinit var viewModelFactory: ViewModelProvider.Factory
-    private lateinit var viewModel: RatesViewModel
-    private lateinit var binding: FragmentSelectCurrencyBinding
+    private lateinit var viewModel: CurrencyViewModel
+    private lateinit var binding: FragmentCurrencyBinding
     private var selectedCurrency: Int = 0
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        binding = FragmentSelectCurrencyBinding.inflate(inflater, container, false)
+        binding = FragmentCurrencyBinding.inflate(inflater, container, false)
         activity?.run { // Instantiate viewModel from the activity's context so that we can get this same instance from other fragments
-            viewModel = ViewModelProvider(this, viewModelFactory).get(RatesViewModel::class.java)
+            viewModel = ViewModelProvider(this, viewModelFactory).get(CurrencyViewModel::class.java)
         }
 
         return binding.root
@@ -47,28 +46,33 @@ class SelectCurrencyFragment : Fragment(), Injectable {
             lifecycleOwner = viewLifecycleOwner
         }
 
-        binding.currencySpinner
-
         val spinnerAdapter = ArrayAdapter(
             requireContext(),
-            android.R.layout.simple_spinner_dropdown_item,
+            android.R.layout.simple_dropdown_item_1line,
             ArrayList<String>()
         )
 
-        binding.currencySpinner.run {
+        binding.currencySpinner.apply {
             adapter = spinnerAdapter
             onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
-                override fun onNothingSelected(p0: AdapterView<*>?) {}
-                override fun onItemSelected(p0: AdapterView<*>?, p1: View?, p2: Int, p3: Long) {
-                    selectedCurrency = p2
-
-                    viewModel.setSelectedCurrency(selectedCurrency)
+                override fun onNothingSelected(adapterView: AdapterView<*>?) {}
+                override fun onItemSelected(
+                    adapterView: AdapterView<*>?,
+                    v: View?,
+                    position: Int,
+                    p3: Long
+                ) {
+                    if (position > 0) {
+                        selectedCurrency = position - 1
+                        viewModel.setSelectedCurrency(selectedCurrency)
+                    }
                 }
             }
         }
 
         viewModel.currencies.observe(viewLifecycleOwner, Observer { currencies ->
             spinnerAdapter.clear()
+            spinnerAdapter.add("Select a currency")
             spinnerAdapter.addAll(currencies.map {
                 (it.name + " - " + it.description)
             })
@@ -80,7 +84,15 @@ class SelectCurrencyFragment : Fragment(), Injectable {
                 amount = binding.amount.text.toString().toDouble()
             }
 
-            viewModel.setAmount(amount)
+
+            val convHelper = ConversionHelper().apply {
+                this.currency = viewModel.selectedCurrency.name
+                this.amount = amount
+            }
+
+            val bundle = bundleOf("conversionHelper" to convHelper)
+            it.findNavController()
+                .navigate(R.id.action_selectCurrencyFragment_to_ratesFragment, bundle)
         }
     }
 }

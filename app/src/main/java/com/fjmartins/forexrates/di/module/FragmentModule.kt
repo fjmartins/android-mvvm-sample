@@ -1,6 +1,7 @@
 package com.fjmartins.forexrates.di.module
 
-import com.fjmartins.forexrates.view.currencies.SelectCurrencyFragment
+import com.fjmartins.forexrates.view.currencies.CurrencyFragment
+import com.fjmartins.forexrates.view.rates.RatesFragment
 import dagger.Module
 import dagger.android.ContributesAndroidInjector
 
@@ -8,5 +9,9 @@ import dagger.android.ContributesAndroidInjector
 abstract class FragmentModule {
 
     @ContributesAndroidInjector
-    abstract fun contributeMainFragment(): SelectCurrencyFragment
+    abstract fun contributeCurrencyFragment(): CurrencyFragment
+
+    @ContributesAndroidInjector
+    abstract fun contributeRatesFragment(): RatesFragment
+
 }

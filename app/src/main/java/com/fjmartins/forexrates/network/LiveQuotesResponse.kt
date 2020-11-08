@@ -1,4 +1,4 @@
-package com.fjmartins.forexrates.model
+package com.fjmartins.forexrates.network
 
 import com.google.gson.annotations.SerializedName
 

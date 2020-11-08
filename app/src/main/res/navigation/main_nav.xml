@@ -1,12 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
-<navigation xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto" android:id="@+id/main_nav"
-    app:startDestination="@id/selectCurrencyFragment">
+<navigation
+    android:id="@+id/main_nav"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    app:startDestination="@id/currencyFragment">
 
     <fragment
-        android:id="@+id/selectCurrencyFragment"
-        android:name="com.fjmartins.forexrates.view.currencies.SelectCurrencyFragment"
-        android:label="SelectCurrencyFragment" >
+        android:id="@+id/currencyFragment"
+        android:name="com.fjmartins.forexrates.view.currencies.CurrencyFragment"
+        android:label="CurrencyFragment" >
         <action
             android:id="@+id/action_selectCurrencyFragment_to_ratesFragment"
             app:destination="@id/ratesFragment" />
@@ -15,6 +17,12 @@
     <fragment
         android:id="@+id/ratesFragment"
         android:name="com.fjmartins.forexrates.view.rates.RatesFragment"
-        android:label="RatesFragment" />
+        android:label="RatesFragment">
+
+        <argument
+            android:name="conversionHelper"
+            app:argType="com.fjmartins.forexrates.model.ConversionHelper"/>
+
+    </fragment>
 
 </navigation>

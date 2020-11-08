@@ -1,7 +1,5 @@
 package com.fjmartins.forexrates.network
 
-import com.fjmartins.forexrates.model.CurrencyListResponse
-import com.fjmartins.forexrates.model.LiveQuotesResponse
 import io.reactivex.Single
 import retrofit2.http.GET
 import retrofit2.http.Query
