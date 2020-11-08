@@ -62,17 +62,14 @@ class CurrencyFragment : Fragment(), Injectable {
                     position: Int,
                     p3: Long
                 ) {
-                    if (position > 0) {
-                        selectedCurrency = position - 1
-                        viewModel.setSelectedCurrency(selectedCurrency)
-                    }
+                    selectedCurrency = position
+                    viewModel.setSelectedCurrency(selectedCurrency)
                 }
             }
         }
 
         viewModel.currencies.observe(viewLifecycleOwner, Observer { currencies ->
             spinnerAdapter.clear()
-            spinnerAdapter.add("Select a currency")
             spinnerAdapter.addAll(currencies.map {
                 (it.name + " - " + it.description)
             })
@@ -83,7 +80,6 @@ class CurrencyFragment : Fragment(), Injectable {
             if (binding.amount.text?.isNotEmpty() == true) {
                 amount = binding.amount.text.toString().toDouble()
             }
-
 
             val convHelper = ConversionHelper().apply {
                 this.currency = viewModel.selectedCurrency.name
