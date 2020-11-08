@@ -4,7 +4,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import com.fjmartins.forexrates.di.annotation.ViewModelKey
 import com.fjmartins.forexrates.di.factory.ViewModelFactory
-import com.fjmartins.forexrates.view.pairs.RatesViewModel
+import com.fjmartins.forexrates.view.rates.RatesViewModel
 import dagger.Binds
 import dagger.Module
 import dagger.multibindings.IntoMap

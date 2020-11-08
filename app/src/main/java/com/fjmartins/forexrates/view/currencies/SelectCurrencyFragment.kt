@@ -1,4 +1,4 @@
-package com.fjmartins.forexrates.view.pairs
+package com.fjmartins.forexrates.view.currencies
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -9,31 +9,28 @@ import android.widget.ArrayAdapter
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
-import androidx.recyclerview.widget.LinearLayoutManager
-import com.fjmartins.forexrates.databinding.RatesFragmentBinding
+import com.fjmartins.forexrates.databinding.FragmentSelectCurrencyBinding
 import com.fjmartins.forexrates.di.Injectable
-import com.fjmartins.forexrates.view.pairs.adapter.PairsAdapter
+import com.fjmartins.forexrates.view.rates.RatesViewModel
 import javax.inject.Inject
 
-class RatesFragment : Fragment(), Injectable {
+class SelectCurrencyFragment : Fragment(), Injectable {
 
     companion object {
-        fun newInstance() = RatesFragment()
+        fun newInstance() = SelectCurrencyFragment()
     }
 
     @Inject
     lateinit var viewModelFactory: ViewModelProvider.Factory
     private lateinit var viewModel: RatesViewModel
-    private lateinit var binding: RatesFragmentBinding
-    private lateinit var pairsViewAdapter: PairsAdapter
-
+    private lateinit var binding: FragmentSelectCurrencyBinding
     private var selectedCurrency: Int = 0
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        binding = RatesFragmentBinding.inflate(inflater, container, false)
+        binding = FragmentSelectCurrencyBinding.inflate(inflater, container, false)
         activity?.run { // Instantiate viewModel from the activity's context so that we can get this same instance from other fragments
             viewModel = ViewModelProvider(this, viewModelFactory).get(RatesViewModel::class.java)
         }
@@ -53,12 +50,12 @@ class RatesFragment : Fragment(), Injectable {
         binding.currencySpinner
 
         val spinnerAdapter = ArrayAdapter(
-            context!!,
-            android.R.layout.simple_dropdown_item_1line,
+            requireContext(),
+            android.R.layout.simple_spinner_dropdown_item,
             ArrayList<String>()
         )
 
-        binding.currencySpinner.apply {
+        binding.currencySpinner.run {
             adapter = spinnerAdapter
             onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
                 override fun onNothingSelected(p0: AdapterView<*>?) {}
@@ -70,14 +67,6 @@ class RatesFragment : Fragment(), Injectable {
             }
         }
 
-        pairsViewAdapter = PairsAdapter()
-
-        binding.ratesRecyclerView.apply {
-            setHasFixedSize(true)
-            adapter = pairsViewAdapter
-            layoutManager = LinearLayoutManager(context)
-        }
-
         viewModel.currencies.observe(viewLifecycleOwner, Observer { currencies ->
             spinnerAdapter.clear()
             spinnerAdapter.addAll(currencies.map {
@@ -85,10 +74,13 @@ class RatesFragment : Fragment(), Injectable {
             })
         })
 
-        viewModel.pairs.observe(viewLifecycleOwner, Observer { pairs ->
-            pairsViewAdapter.setCurrencyPairs(pairs)
-        })
+        binding.btnConvert.setOnClickListener {
+            var amount = 0.0
+            if (binding.amount.text?.isNotEmpty() == true) {
+                amount = binding.amount.text.toString().toDouble()
+            }
 
-        binding.loadingIndicator.animate()
+            viewModel.setAmount(amount)
+        }
     }
 }

@@ -1,4 +1,4 @@
-package com.fjmartins.forexrates.view.pairs
+package com.fjmartins.forexrates.view.rates
 
 import android.annotation.SuppressLint
 import androidx.lifecycle.MutableLiveData
@@ -10,32 +10,49 @@ import javax.inject.Inject
 
 class RatesViewModel @Inject constructor(private val repository: ForexRepository) : ViewModel() {
 
+    private lateinit var selectedCurrency: Currency
+
     val currencies = MutableLiveData<List<Currency>>()
     val pairs = MutableLiveData<List<Pair>>()
-    val loading = MutableLiveData<Boolean>()
 
     @SuppressLint("CheckResult")
     fun getCurrencies() {
-        loading.value = true
-
         repository.getCurrencies { currencies ->
             this.currencies.value = currencies
-            loading.value = false
         }
     }
 
     @SuppressLint("CheckResult")
-    private fun getLiveRates(source: String) {
-        loading.value = true
-
-        repository.getLivePairs(source) { pairs ->
+    private fun getLiveRates() {
+        repository.getLivePairs { pairs ->
             this.pairs.value = pairs
-            loading.value = false
         }
     }
 
     fun setSelectedCurrency(id: Int) {
-        val currency = currencies.value?.get(id)
-        getLiveRates(currency?.name ?: "USD")
+        currencies.value?.run {
+            selectedCurrency = get(id)
+        }
+
+        getLiveRates()
+    }
+
+    fun setAmount(amount: Double) {
+        var amountInDollar = 0.0
+
+        for(pair in pairs.value.orEmpty()) {
+            if (pair.name.contains(selectedCurrency.name)) {
+                amountInDollar = amount / pair.value
+            }
+        }
+
+        pairs.value = pairs.value?.map { pair ->
+            if (selectedCurrency.name != "USD")
+                pair.value = pair.value * amountInDollar
+            else
+                pair.value = pair.value * amount
+
+            pair
+        }
     }
 }

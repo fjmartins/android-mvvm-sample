@@ -10,7 +10,7 @@ data class Pair(
     @ColumnInfo(name = "name")
     val name: String = "",
     @ColumnInfo(name = "value")
-    val value: Double = 0.0,
+    var value: Double = 0.0,
     @ColumnInfo(name = "timestamp")
     val timestamp: Long = 0
 )

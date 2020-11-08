@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto" android:id="@+id/main_nav"
+    app:startDestination="@id/selectCurrencyFragment">
+
+    <fragment
+        android:id="@+id/selectCurrencyFragment"
+        android:name="com.fjmartins.forexrates.view.currencies.SelectCurrencyFragment"
+        android:label="SelectCurrencyFragment" >
+        <action
+            android:id="@+id/action_selectCurrencyFragment_to_ratesFragment"
+            app:destination="@id/ratesFragment" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/ratesFragment"
+        android:name="com.fjmartins.forexrates.view.rates.RatesFragment"
+        android:label="RatesFragment" />
+
+</navigation>

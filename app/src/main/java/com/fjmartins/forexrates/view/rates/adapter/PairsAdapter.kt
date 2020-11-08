@@ -1,4 +1,4 @@
-package com.fjmartins.forexrates.view.pairs.adapter
+package com.fjmartins.forexrates.view.rates.adapter
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
