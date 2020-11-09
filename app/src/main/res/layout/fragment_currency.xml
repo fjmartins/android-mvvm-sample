@@ -10,7 +10,7 @@
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/fragment_currency_rates"
+        android:id="@+id/fragment_currency_parent"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:padding="@dimen/forex_rate_default_padding"
@@ -53,10 +53,10 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/amountTextView"
-            app:layout_constraintBottom_toTopOf="@+id/btnConvert" />
+            app:layout_constraintBottom_toTopOf="@+id/viewRatesButton" />
 
         <androidx.appcompat.widget.AppCompatButton
-            android:id="@+id/btnConvert"
+            android:id="@+id/viewRatesButton"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             app:layout_constraintStart_toStartOf="parent"

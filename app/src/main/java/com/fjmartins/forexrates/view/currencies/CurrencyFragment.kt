@@ -76,7 +76,7 @@ class CurrencyFragment : Fragment(), Injectable {
         })
 
         binding.amount.hideSoftKeyboardOnFocusLostEnabled(true)
-        binding.btnConvert.setOnClickListener {
+        binding.viewRatesButton.setOnClickListener {
             var amount = 0.0
 
             if (binding.amount.text.toString().isNotEmpty()) {
