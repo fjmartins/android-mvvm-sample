@@ -15,6 +15,7 @@ import com.fjmartins.forexrates.R
 import com.fjmartins.forexrates.databinding.FragmentCurrencyBinding
 import com.fjmartins.forexrates.di.Injectable
 import com.fjmartins.forexrates.model.ConversionHelper
+import com.fjmartins.forexrates.view.util.hideSoftKeyboardOnFocusLostEnabled
 import javax.inject.Inject
 
 class CurrencyFragment : Fragment(), Injectable {
@@ -23,7 +24,6 @@ class CurrencyFragment : Fragment(), Injectable {
     lateinit var viewModelFactory: ViewModelProvider.Factory
     private lateinit var viewModel: CurrencyViewModel
     private lateinit var binding: FragmentCurrencyBinding
-    private var selectedCurrency: Int = 0
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -62,8 +62,7 @@ class CurrencyFragment : Fragment(), Injectable {
                     position: Int,
                     p3: Long
                 ) {
-                    selectedCurrency = position
-                    viewModel.setSelectedCurrency(selectedCurrency)
+                    viewModel.setSelectedCurrency(position)
                 }
             }
         }
@@ -73,22 +72,25 @@ class CurrencyFragment : Fragment(), Injectable {
             spinnerAdapter.addAll(currencies.map {
                 (it.name + " - " + it.description)
             })
+            binding.currencySpinner.setSelection(viewModel.selectedId.value ?: 0)
         })
 
+        binding.amount.hideSoftKeyboardOnFocusLostEnabled(true)
         binding.btnConvert.setOnClickListener {
             var amount = 0.0
-            if (binding.amount.text?.isNotEmpty() == true) {
+
+            if (binding.amount.text.toString().isNotEmpty()) {
                 amount = binding.amount.text.toString().toDouble()
             }
 
-            val convHelper = ConversionHelper().apply {
-                this.currency = viewModel.selectedCurrency.name
-                this.amount = amount
-            }
-
-            val bundle = bundleOf("conversionHelper" to convHelper)
             it.findNavController()
-                .navigate(R.id.action_selectCurrencyFragment_to_ratesFragment, bundle)
+                .navigate(
+                    R.id.action_selectCurrencyFragment_to_ratesFragment,
+                    bundleOf("conversionHelper" to ConversionHelper().apply {
+                        this.currency = viewModel.selected.name
+                        this.amount = amount
+                    })
+                )
         }
     }
 }

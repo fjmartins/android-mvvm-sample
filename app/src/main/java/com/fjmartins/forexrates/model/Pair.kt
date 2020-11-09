@@ -8,7 +8,7 @@ import androidx.room.PrimaryKey
 data class Pair(
     @PrimaryKey
     @ColumnInfo(name = "name")
-    val name: String = "",
+    var name: String = "",
     @ColumnInfo(name = "value")
     var value: Double = 0.0,
     @ColumnInfo(name = "timestamp")

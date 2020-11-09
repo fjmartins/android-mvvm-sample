@@ -9,8 +9,10 @@ import javax.inject.Inject
 
 class CurrencyViewModel @Inject constructor(private val repository: ForexRepository) : ViewModel() {
 
-    lateinit var selectedCurrency: Currency
+    val amount = MutableLiveData<String>()
+    val selectedId = MutableLiveData<Int>()
 
+    lateinit var selected: Currency
     val currencies = MutableLiveData<List<Currency>>()
 
     @SuppressLint("CheckResult")
@@ -22,7 +24,9 @@ class CurrencyViewModel @Inject constructor(private val repository: ForexReposit
 
     fun setSelectedCurrency(id: Int) {
         currencies.value?.run {
-            selectedCurrency = get(id)
+            selected = get(id)
         }
+
+        selectedId.value = id
     }
 }

@@ -1,10 +1,12 @@
 <resources>
     <string name="app_name">Forex Rates</string>
 
-    <string name="string_converter">%1$s</string>
+    <string name="string_converter">%.10f</string>
     <string name="convert">View Rates</string>
 
     <string name="currencies">Currencies</string>
     <string name="enter_amount">Enter Amount</string>
+
+    <string name="rates_for">Rates for %1$s %2$s</string>
 
 </resources>

@@ -22,7 +22,6 @@
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@color/white"
             android:minHeight="58dp"
             android:padding="@dimen/forex_rate_default_padding">
 

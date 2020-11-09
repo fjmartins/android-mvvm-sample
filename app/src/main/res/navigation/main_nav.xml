@@ -8,7 +8,8 @@
     <fragment
         android:id="@+id/currencyFragment"
         android:name="com.fjmartins.forexrates.view.currencies.CurrencyFragment"
-        android:label="CurrencyFragment" >
+        android:label="Select a Currency" >
+
         <action
             android:id="@+id/action_selectCurrencyFragment_to_ratesFragment"
             app:destination="@id/ratesFragment" />
@@ -17,12 +18,11 @@
     <fragment
         android:id="@+id/ratesFragment"
         android:name="com.fjmartins.forexrates.view.rates.RatesFragment"
-        android:label="RatesFragment">
+        android:label="Rates">
 
         <argument
             android:name="conversionHelper"
             app:argType="com.fjmartins.forexrates.model.ConversionHelper"/>
-
     </fragment>
 
 </navigation>
