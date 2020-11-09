@@ -10,7 +10,7 @@ data class Currency(
     @ColumnInfo(name = "name")
     val name: String = "",
     @ColumnInfo(name = "description")
-    val description: String = "",
+    var description: String = "",
     @ColumnInfo(name = "timestamp")
-    val timestamp: Long = 0
+    var timestamp: Long = 0
 )

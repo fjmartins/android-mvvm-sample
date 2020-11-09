@@ -15,9 +15,15 @@ interface PairsDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     fun insertPairs(pairs: List<Pair>): Single<List<Long>>
 
+    @Query("SELECT * FROM pairs WHERE name=:pair")
+    fun getPair(pair: String): Single<Pair>
+
     @Update
-    fun updatePair(pair: Pair)
+    fun updatePair(pair: Pair): Single<Int>
 
     @Delete
-    fun deletePair(pair: Pair)
+    fun deletePair(pair: Pair): Single<Int>
+
+    @Query("DELETE FROM pairs")
+    fun deleteAll(): Single<Int>
 }
