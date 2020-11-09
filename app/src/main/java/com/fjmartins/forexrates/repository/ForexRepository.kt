@@ -1,11 +1,11 @@
 package com.fjmartins.forexrates.repository
 
-import android.annotation.SuppressLint
 import androidx.room.EmptyResultSetException
 import com.fjmartins.forexrates.dao.ForexDatabase
 import com.fjmartins.forexrates.model.Currency
 import com.fjmartins.forexrates.model.Pair
 import com.fjmartins.forexrates.network.CurrencyLayerApi
+import com.fjmartins.forexrates.util.DisposableManager
 import io.reactivex.Observable
 import io.reactivex.Single
 import io.reactivex.android.schedulers.AndroidSchedulers
@@ -13,24 +13,23 @@ import io.reactivex.schedulers.Schedulers
 import java.util.concurrent.TimeUnit
 
 //TODO: Refactor
-@SuppressLint("CheckResult")
 class ForexRepository(
     private val forexDatabase: ForexDatabase,
     private val currencyLayerApi: CurrencyLayerApi
 ) {
+
     fun getCurrencies(update: (currencies: List<Currency>) -> Unit) {
-        // TODO: Add to disposable, call compositeDisposable.dispose() when done
-        Observable.interval(0, 30, TimeUnit.MINUTES)
+        DisposableManager.add(Observable.interval(0, 30, TimeUnit.MINUTES)
             .flatMap {
                 return@flatMap Observable.create<List<Currency>> { emitter ->
                     getCurrenciesLocal().subscribe({ localCurrencies ->
                         val expirationTime =
                             System.currentTimeMillis() - localCurrencies[0].timestamp
                         if (expirationTime >= TimeUnit.MINUTES.toMillis(30)) {
-                            getCurrenciesRemote().subscribe { remoteCurrencies ->
+                            DisposableManager.add(getCurrenciesRemote().subscribe { remoteCurrencies ->
                                 emitter.onNext(remoteCurrencies)
                                 emitter.onComplete()
-                            }
+                            })
 
                             return@subscribe
                         }
@@ -39,17 +38,17 @@ class ForexRepository(
                         emitter.onComplete()
                     }, { error ->
                         if (error is EmptyResultSetException)
-                            getCurrenciesRemote().subscribe { remoteCurrencies ->
+                            DisposableManager.add(getCurrenciesRemote().subscribe { remoteCurrencies ->
                                 emitter.onNext(remoteCurrencies)
                                 emitter.onComplete()
-                            }
+                            })
                     })
                 }
             }
             .observeOn(AndroidSchedulers.mainThread())
             .subscribe { currencies ->
                 update(currencies)
-            }
+            })
     }
 
     private fun getCurrenciesLocal(): Single<List<Currency>> {
@@ -92,17 +91,16 @@ class ForexRepository(
     }
 
     fun getLivePairs(update: (pairs: List<Pair>) -> Unit) {
-        // TODO: Add to disposable, call compositeDisposable.dispose() when done
-        Observable.interval(0, 30, TimeUnit.MINUTES)
+        DisposableManager.add(Observable.interval(0, 30, TimeUnit.MINUTES)
             .flatMap {
                 return@flatMap Observable.create<List<Pair>> { emitter ->
                     getPairsLocal().subscribe({ localPairs ->
                         val expirationTime = System.currentTimeMillis() - localPairs[0].timestamp
                         if (expirationTime >= TimeUnit.MINUTES.toMillis(30)) {
-                            getPairsRemote().subscribe { remotePairs ->
+                            DisposableManager.add(getPairsRemote().subscribe { remotePairs ->
                                 emitter.onNext(remotePairs)
                                 emitter.onComplete()
-                            }
+                            })
 
                             return@subscribe
                         }
@@ -111,17 +109,17 @@ class ForexRepository(
                         emitter.onComplete()
                     }, { error ->
                         if (error is EmptyResultSetException)
-                            getPairsRemote().subscribe { remotePairs ->
+                            DisposableManager.add(getPairsRemote().subscribe { remotePairs ->
                                 emitter.onNext(remotePairs)
                                 emitter.onComplete()
-                            }
+                            })
                     })
                 }
             }
             .observeOn(AndroidSchedulers.mainThread())
             .subscribe { pairs ->
                 update(pairs)
-            }
+            })
     }
 
     private fun getPairsLocal(): Single<List<Pair>> {

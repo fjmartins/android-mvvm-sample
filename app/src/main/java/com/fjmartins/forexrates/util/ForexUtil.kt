@@ -1,4 +1,4 @@
-package com.fjmartins.forexrates.view.util
+package com.fjmartins.forexrates.util
 
 import android.content.Context
 import android.view.View

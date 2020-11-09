@@ -6,6 +6,7 @@ import androidx.navigation.fragment.NavHostFragment
 import com.fjmartins.forexrates.R
 import com.fjmartins.forexrates.di.Injectable
 import com.fjmartins.forexrates.model.ConversionHelper
+import com.fjmartins.forexrates.util.DisposableManager
 import com.fjmartins.forexrates.view.base.BaseActivity
 import dagger.android.AndroidInjection
 
@@ -50,5 +51,9 @@ class MainActivity : BaseActivity(), Injectable {
         }
     }
 
+    override fun onDestroy() {
+        DisposableManager.dispose()
+        super.onDestroy()
+    }
     override fun onSupportNavigateUp(): Boolean = navController.popBackStack()
 }

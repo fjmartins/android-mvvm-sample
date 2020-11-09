@@ -1,4 +1,4 @@
-package com.fjmartins.forexrates.view.util.binding
+package com.fjmartins.forexrates.util.binding
 
 import androidx.databinding.BindingAdapter
 import com.google.android.material.textview.MaterialTextView

@@ -15,7 +15,7 @@ import com.fjmartins.forexrates.R
 import com.fjmartins.forexrates.databinding.FragmentCurrencyBinding
 import com.fjmartins.forexrates.di.Injectable
 import com.fjmartins.forexrates.model.ConversionHelper
-import com.fjmartins.forexrates.view.util.hideSoftKeyboardOnFocusLostEnabled
+import com.fjmartins.forexrates.util.hideSoftKeyboardOnFocusLostEnabled
 import javax.inject.Inject
 
 class CurrencyFragment : Fragment(), Injectable {
