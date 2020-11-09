@@ -14,7 +14,7 @@
         android:clickable="true"
         android:elevation="0dp"
         android:focusable="true"
-        android:foreground="?attr/selectableItemBackground"
+        android:background="?attr/colorOnPrimary"
         app:cardCornerRadius="0dp"
         app:cardElevation="0dp"
         app:cardMaxElevation="0dp">
@@ -31,8 +31,8 @@
                 android:layout_height="wrap_content"
                 android:gravity="top"
                 android:lineSpacingExtra="5sp"
-                android:text="@{pair.name}"
                 android:textSize="18sp"
+                app:setCurrency="@{pair.name}"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toStartOf="@+id/amount"
                 app:layout_constraintHorizontal_bias="1.0"

@@ -6,7 +6,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.fjmartins.forexrates.databinding.PairItemBinding
 import com.fjmartins.forexrates.model.Pair
 
-class PairsAdapter : RecyclerView.Adapter<PairsAdapter.PairsHolder>() {
+class RatesAdapter : RecyclerView.Adapter<RatesAdapter.PairsHolder>() {
 
     private var pairs: List<Pair>? = null
 

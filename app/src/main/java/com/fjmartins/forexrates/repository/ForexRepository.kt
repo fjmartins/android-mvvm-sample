@@ -145,7 +145,7 @@ class ForexRepository(
                 for ((key, value) in liveQuotesResponse.quotes) {
                     pairs.add(
                         Pair(
-                            name = key.substring(3),
+                            name = key,
                             value = value,
                             timestamp = System.currentTimeMillis()
                         )

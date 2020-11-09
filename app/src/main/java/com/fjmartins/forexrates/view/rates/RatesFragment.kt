@@ -1,12 +1,10 @@
 package com.fjmartins.forexrates.view.rates
 
-import android.content.Context
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.view.inputmethod.InputMethodManager
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -14,7 +12,7 @@ import com.fjmartins.forexrates.databinding.FragmentRatesBinding
 import com.fjmartins.forexrates.di.Injectable
 import com.fjmartins.forexrates.model.ConversionHelper
 import com.fjmartins.forexrates.model.Pair
-import com.fjmartins.forexrates.view.rates.adapter.PairsAdapter
+import com.fjmartins.forexrates.view.rates.adapter.RatesAdapter
 import javax.inject.Inject
 
 class RatesFragment : Fragment(), Injectable {
@@ -23,7 +21,7 @@ class RatesFragment : Fragment(), Injectable {
     lateinit var viewModelFactory: ViewModelProvider.Factory
     private lateinit var viewModel: RatesViewModel
     private lateinit var binding: FragmentRatesBinding
-    private lateinit var pairsViewAdapter: PairsAdapter
+    private lateinit var pairsViewAdapter: RatesAdapter
 
     private var conversionHelper: ConversionHelper? = null
 
@@ -44,7 +42,7 @@ class RatesFragment : Fragment(), Injectable {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        pairsViewAdapter = PairsAdapter()
+        pairsViewAdapter = RatesAdapter()
         pairsViewAdapter.setCurrencyPairs(ArrayList<Pair>().toList())
 
         binding.apply {
