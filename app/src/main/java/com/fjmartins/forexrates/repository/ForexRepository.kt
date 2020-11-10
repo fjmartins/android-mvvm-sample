@@ -18,14 +18,18 @@ class ForexRepository(
     private val currencyLayerApi: CurrencyLayerApi
 ) {
 
+    companion object {
+        const val MINUTES_TO_REFRESH = 30L
+    }
+
     fun getCurrencies(update: (currencies: List<Currency>) -> Unit) {
-        DisposableManager.add(Observable.interval(0, 30, TimeUnit.MINUTES)
+        DisposableManager.add(Observable.interval(0, MINUTES_TO_REFRESH, TimeUnit.MINUTES)
             .flatMap {
                 return@flatMap Observable.create<List<Currency>> { emitter ->
                     getCurrenciesLocal().subscribe({ localCurrencies ->
                         val expirationTime =
                             System.currentTimeMillis() - localCurrencies[0].timestamp
-                        if (expirationTime >= TimeUnit.MINUTES.toMillis(30)) {
+                        if (expirationTime >= TimeUnit.MINUTES.toMillis(MINUTES_TO_REFRESH)) {
                             DisposableManager.add(getCurrenciesRemote().subscribe { remoteCurrencies ->
                                 emitter.onNext(remoteCurrencies)
                                 emitter.onComplete()
@@ -91,12 +95,12 @@ class ForexRepository(
     }
 
     fun getLivePairs(update: (pairs: List<Pair>) -> Unit) {
-        DisposableManager.add(Observable.interval(0, 30, TimeUnit.MINUTES)
+        DisposableManager.add(Observable.interval(0, MINUTES_TO_REFRESH, TimeUnit.MINUTES)
             .flatMap {
                 return@flatMap Observable.create<List<Pair>> { emitter ->
                     getPairsLocal().subscribe({ localPairs ->
                         val expirationTime = System.currentTimeMillis() - localPairs[0].timestamp
-                        if (expirationTime >= TimeUnit.MINUTES.toMillis(30)) {
+                        if (expirationTime >= TimeUnit.MINUTES.toMillis(MINUTES_TO_REFRESH)) {
                             DisposableManager.add(getPairsRemote().subscribe { remotePairs ->
                                 emitter.onNext(remotePairs)
                                 emitter.onComplete()
